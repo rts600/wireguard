@@ -72,11 +72,7 @@ show_start_setup() {
 	if [ "$auto" = 0 ]; then
 		echo
 		echo '开始安装WireGuard'
-		echo
-		echo '如果使用默认选项，按回车键继续'
-	else
-		echo
-		echo '使用默认选项安装WireGuard'
+                sudo ufw allow $port/udp
 	fi
 }
 
@@ -377,16 +373,16 @@ new_client_setup() {
 	fi
 	if [[ "$specify_ip" =~ ^[yY]$ ]]; then
 		echo
-		read -rp "请输入该客户端的内网IP地址(例如：192.168.0.X): " client_ip
+		read -rp "请输入该客户端的内网IP地址(范围：192.168.0.231-192.168.0.239): " client_ip
 		octet=$(printf '%s' "$client_ip" | cut -d "." -f 4)
 		until [[ $client_ip =~ ^192\.168\.0\.([2-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-4])$ ]] \
 			&& ! grep AllowedIPs /etc/wireguard/wg0.conf | cut -d "." -f 4 | cut -d "/" -f 1 | grep -q "$octet"; do
 			if [[ ! $client_ip =~ ^192\.168\.0\.([2-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-4])$ ]]; then
-				echo "无效！IP地址范围：192.168.0.2 - 192.168.0.254."
+				echo "无效！IP地址范围：192.168.0.231 - 192.168.0.239."
 			else
 				echo "IP地址已被使用"
 			fi
-			read -rp "请输入该客户端的内网IP地址(例如：192.168.0.X): " client_ip
+			read -rp "请输入该客户端的内网IP地址(范围：192.168.0.231-192.168.0.239): " client_ip
 			octet=$(printf '%s' "$client_ip" | cut -d "." -f 4)
 		done
 	fi
@@ -819,6 +815,7 @@ else
 				echo
 				echo "正在卸载WireGuard, 请稍候..."
 				port=$(grep '^ListenPort' /etc/wireguard/wg0.conf | cut -d " " -f 3)
+                                sudo ufw delete allow $port/udp
 				if systemctl is-active --quiet firewalld.service; then
 					ip=$(firewall-cmd --direct --get-rules ipv4 nat POSTROUTING | grep '\-s 192.168.0.0/24 '"'"'!'"'"' -d 192.168.0.0/24' | grep -oE '[^ ]+$')
 					# Using both permanent and not permanent rules to avoid a firewalld reload.
