@@ -1,5 +1,5 @@
 ## VPS安装wireguard
-### 适用于Ubuntu/Debian
+##### 适用于Ubuntu/Debian
 
 第一步：
 ```
