@@ -869,6 +869,8 @@ else
 						apt-get remove --purge -y wireguard wireguard-dkms wireguard-tools >/dev/null
 					)
 				fi
+                                rm -rf wireguard-install.sh
+                                rm -rf *.conf
 				echo
 				echo "WireGuard已卸载"
 			else
