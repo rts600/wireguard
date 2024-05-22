@@ -72,7 +72,7 @@ show_start_setup() {
 	if [ "$auto" = 0 ]; then
 		echo
 		echo '开始安装WireGuard'
-                sudo ufw allow $port/udp
+                sudo ufw allow "$port"/udp
 	fi
 }
 
@@ -815,7 +815,7 @@ else
 				echo
 				echo "正在卸载WireGuard, 请稍候..."
 				port=$(grep '^ListenPort' /etc/wireguard/wg0.conf | cut -d " " -f 3)
-                                sudo ufw delete allow $port/udp
+                                sudo ufw delete allow "$port"/udp
 				if systemctl is-active --quiet firewalld.service; then
 					ip=$(firewall-cmd --direct --get-rules ipv4 nat POSTROUTING | grep '\-s 192.168.0.0/24 '"'"'!'"'"' -d 192.168.0.0/24' | grep -oE '[^ ]+$')
 					# Using both permanent and not permanent rules to avoid a firewalld reload.
