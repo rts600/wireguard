@@ -807,12 +807,12 @@ else
 				fi
 				echo
 				echo "WireGuard已卸载"
+                                rm -rf wireguard.sh
+                                rm -rf *.conf
 			else
 				echo
 				echo "卸载WireGuard出错！"
-			fi
-            rm -rf wireguard.sh
-            rm -rf *.conf			
+			fi			
 			exit
 		;;
 		6)
