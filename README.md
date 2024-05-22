@@ -3,7 +3,7 @@
 
 ##### 第一步：
 ```
-wget -O wireguard_install.sh https://raw.githubusercontent.com/rts600/wireguard/main
+curl -sS -O https://raw.githubusercontent.com/rts600/wireguard/main/wireguard_install.sh
 ```
 ##### 第二步：
 ```
