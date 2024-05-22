@@ -72,7 +72,6 @@ show_start_setup() {
 	if [ "$auto" = 0 ]; then
 		echo
 		echo '开始安装WireGuard'
-                sudo ufw allow "$port"/udp
 	fi
 }
 
@@ -525,6 +524,7 @@ if [[ ! -e /etc/wireguard/wg0.conf ]]; then
 	show_config
 	detect_ipv6
 	select_port
+        sudo ufw allow "$port"/udp
 	enter_client_name
 	new_client_dns
 	if [ "$auto" = 0 ]; then
@@ -582,7 +582,7 @@ if [[ ! -e /etc/wireguard/wg0.conf ]]; then
 # ENDPOINT $([[ -n "$public_ip" ]] && echo "$public_ip" || echo "$ip")
 
 [Interface]
-Address = 192.168.0.1/24$([[ -n "$ip6" ]] && echo ", fddd:2c4:2c4:2c4::1/64")
+Address = 192.168.0.230/24$([[ -n "$ip6" ]] && echo ", fddd:2c4:2c4:2c4::1/64")
 PrivateKey = $(wg genkey)
 ListenPort = $port
 
