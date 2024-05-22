@@ -59,7 +59,7 @@ show_start_setup() {
 
 enter_server_address() {
 	echo
-	printf "你想使用域名连接这台WireGuard服务器吗？按回车键默认不使用[y/N] "
+	printf "你想使用域名连接这台WireGuard服务器吗？[回车键跳过][y/N] "
 	read -r response
 	case $response in
 		[yY][eE][sS]|[yY])
@@ -183,7 +183,7 @@ detect_ipv6() {
 select_port() {
 	if [ "$auto" = 0 ]; then
 		echo
-		echo "WireGuard服务端口"
+		echo "选择WireGuard服务端口"
 		read -rp "Port [20001]: " port
 		until [[ -z "$port" || "$port" =~ ^[0-9]+$ && "$port" -le 65535 ]]; do
 			echo "$port: 端口无效."
@@ -201,10 +201,10 @@ enter_custom_dns() {
 		echo "DNS服务器无效."
 		read -rp "请输入主DNS服务器: " dns1
 	done
-	read -rp "请输入从DNS服务器(回车键跳过): " dns2
+	read -rp "请输入从DNS服务器[回车键跳过]: " dns2
 	until [ -z "$dns2" ] || check_ip "$dns2"; do
 		echo "DNS服务器无效."
-		read -rp "请输入从DNS服务器(回车键跳过): " dns2
+		read -rp "请输入从DNS服务器[回车键跳过]: " dns2
 	done
 }
 
@@ -217,7 +217,7 @@ set_client_name() {
 enter_client_name() {
 	if [ "$auto" = 0 ]; then
 		echo
-		echo "请输入第一个客户端的名称:"
+		echo "请输入第一个客户端的名称[回车键跳过]:"
 		read -rp "Name [client]: " unsanitized_client
 		set_client_name
 		[[ -z "$client" ]] && client=client
@@ -242,7 +242,7 @@ abort_and_exit() {
 
 confirm_setup() {
 	if [ "$auto" = 0 ]; then
-		printf "是否继续? [Y/n] "
+		printf "是否继续?[回车键继续] [Y/n] "
 		read -r response
 		case $response in
 			[yY][eE][sS]|[yY]|'')
@@ -258,7 +258,7 @@ confirm_setup() {
 new_client_dns() {
 	if [ "$auto" = 0 ]; then
 		echo
-		echo "请选择DNS服务器:"
+		echo "请选择DNS服务器[回车键跳过]:"
 		echo "   1) GoogleDNS"
 		echo "   2) OpenDNS"
 		echo "   3) Custom"
@@ -319,7 +319,7 @@ new_client_setup() {
 	specify_ip=n
 	if [ "$1" = "add_client" ]; then
 		echo
-		read -rp "给新的客户端指定内网IP地址？[y/N]: " specify_ip
+		read -rp "给新的客户端指定内网IP地址？[回车键跳过][y/N]: " specify_ip
 		until [[ "$specify_ip" =~ ^[yYnN]*$ ]]; do
 			echo "$specify_ip: 选择无效"
 			read -rp "给新的客户端指定内网IP地址？[y/N]: " specify_ip
@@ -747,7 +747,7 @@ else
 		;;
 		5)
 			echo
-			read -rp "确认卸载WireGuard? [y/N]: " remove
+			read -rp "确认卸载WireGuard? [输入y继续][y/N]: " remove
 			until [[ "$remove" =~ ^[yYnN]*$ ]]; do
 				echo "$remove: 选择无效"
 				read -rp "确认卸载WireGuard? [y/N]: " remove
