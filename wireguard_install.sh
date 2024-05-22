@@ -252,7 +252,7 @@ enter_client_name() {
 check_firewall() {
 	# Install a firewall if firewalld or iptables are not already available
 	if ! systemctl is-active --quiet firewalld.service && ! hash iptables 2>/dev/null; then
-		elif [[ "$os" == "debian" || "$os" == "ubuntu" ]]; then
+		if [[ "$os" == "debian" || "$os" == "ubuntu" ]]; then
 			ufw allow 20001/udp
 		fi
 	fi
