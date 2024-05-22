@@ -253,7 +253,7 @@ check_firewall() {
 	# Install a firewall if firewalld or iptables are not already available
 	if ! systemctl is-active --quiet firewalld.service && ! hash iptables 2>/dev/null; then
 		if [[ "$os" == "debian" || "$os" == "ubuntu" ]]; then
-			ufw allow 20001/udp
+			firewall="iptables"
 		fi
 	fi
 }
