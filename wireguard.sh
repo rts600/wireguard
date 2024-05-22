@@ -217,7 +217,7 @@ set_client_name() {
 enter_client_name() {
 	if [ "$auto" = 0 ]; then
 		echo
-		echo "请输入第一个客户端的名称[回车键跳过]:"
+		echo "请输入第一个客户端的名称:"
 		read -rp "Name [client]: " unsanitized_client
 		set_client_name
 		[[ -z "$client" ]] && client=client
