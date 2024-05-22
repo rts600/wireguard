@@ -332,9 +332,9 @@ new_client_setup() {
 		echo
 		read -rp "请输入该客户端的内网IP地址(范围：192.168.2.2-192.168.2.254): " client_ip
 		octet=$(printf '%s' "$client_ip" | cut -d "." -f 4)
-		until [[ $client_ip =~ ^192\.168\.0\.([2-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-4])$ ]] \
+		until [[ $client_ip =~ ^192\.168\.2\.([2-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-4])$ ]] \
 			&& ! grep AllowedIPs /etc/wireguard/wg0.conf | cut -d "." -f 4 | cut -d "/" -f 1 | grep -q "$octet"; do
-			if [[ ! $client_ip =~ ^192\.168\.0\.([2-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-4])$ ]]; then
+			if [[ ! $client_ip =~ ^192\.168\.2\.([2-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-4])$ ]]; then
 				echo "无效！IP地址范围：192.168.2.2 - 192.168.2.254."
 			else
 				echo "IP地址已被使用"
@@ -479,8 +479,7 @@ if [[ ! -e /etc/wireguard/wg0.conf ]]; then
 	show_config
 	detect_ipv6
 	select_port
-	enter_client_name
-    new_client_setup	
+	enter_client_name	
 	new_client_dns
 	if [ "$auto" = 0 ]; then
 		echo
